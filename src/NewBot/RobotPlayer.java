@@ -1,4 +1,4 @@
-package examplefuncsplayer;
+package NewBot;
 import battlecode.common.*;
 
 public strictfp class RobotPlayer {
@@ -110,7 +110,17 @@ public strictfp class RobotPlayer {
     }
 
     static void runLandscaper() throws GameActionException {
+        tryBlockchain();
+        tryMove(randomDirection());
+        for (Direction dir: directions) {
+            if (tryDig(dir))
+                rc.getDirtCarrying();
 
+        }
+        for (Direction dir: directions) {
+            if (tryDeposit(dir))
+                rc.depositDirt();
+        }
     }
 
     static void runDeliveryDrone() throws GameActionException {
@@ -198,6 +208,19 @@ public strictfp class RobotPlayer {
         } else return false;
     }
 
+    static boolean tryDig(Direction dir) throws GameActionException {
+        if (rc.isReady() && rc.canDigDirt(dir)) {
+            rc.digDirt(dir);
+            return true;
+        }   else return false;
+    }
+
+    static boolean tryDeposit(Direction dir) throws GameActionException {
+        if (rc.isReady() && rc.canDepositDirt(dir)) {
+            rc.depositDirt(dir);
+            return true;
+        }   else return false;
+    }
     /**
      * Attempts to mine soup in a given direction.
      *
